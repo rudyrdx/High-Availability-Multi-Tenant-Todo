@@ -1,0 +1,5 @@
+{
+  "name": "Chronos Task Manager",
+  "description": "A beautiful, modular, and scalable Todo application with SQL-compliant schema design, local storage persistence, and Gmail-inspired calendar navigation.",
+  "requestFramePermissions": []
+}

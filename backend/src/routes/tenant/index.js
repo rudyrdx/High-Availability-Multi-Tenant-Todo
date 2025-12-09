@@ -2,6 +2,7 @@
 import { Router } from "express";
 import { z } from 'zod';
 import driver from "../../config/neo4j.js";
+import jwt from "jsonwebtoken";
 import { validate } from "../../middleware/validate.js";
 import { hashPassword } from "../../service/password.service.js";
 
@@ -149,6 +150,10 @@ router.post('/lookup', validate(lookupSchema), async (req, res) => {
  *                 success:
  *                   type: boolean
  *                   example: true
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for automatic login
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
  *                 tenant:
  *                   type: object
  *                   properties:
@@ -238,8 +243,16 @@ router.post('/create', validate(createSchema), async (req, res) => {
     const tenant = result.records[0].get('t').properties;
     const user = result.records[0].get('u').properties;
 
+    // Generate JWT token for automatic login
+    const token = jwt.sign(
+      { userId: user.id, tenantId: user.tenant_id, role: user.role },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '1h' }
+    );
+
     res.status(201).json({
       success: true,
+      token,
       tenant: { id: tenant.id, name: tenant.name, slug: tenant.slug },
       user: { id: user.id, email: user.email, role: user.role }
     });
