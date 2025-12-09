@@ -345,18 +345,6 @@ backend/
 5. **Rate limiting** - Consider adding for production
 6. **HTTPS only** - Use SSL/TLS in production
 
-## 📈 Next Steps
-
-Consider implementing:
-- Rate limiting (express-rate-limit)
-- Structured logging (Winston/Pino)
-- Password reset functionality
-- Email verification
-- Pagination for todo/category lists
-- Todo search and filtering
-- WebSocket support for real-time updates
-- File attachments for todos
-
 ## 📄 License
 
 MIT
